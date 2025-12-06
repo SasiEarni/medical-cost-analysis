@@ -1,23 +1,31 @@
-df <- insurance
+df <- insurence
+ds225 <- insurance
+
+#Checking total missing values
+sum(is.na(ds225))
+
+#Checking missing values per column
+colSums(is.na(ds225))
 
 # Calculate correlation value
-correlation_value <- cor(df$bmi, df$charges, method = "pearson")
+correlation_value <- cor(ds225$bmi, ds225$charges, method = "pearson")
 correlation_value
 
 # Correlation test
-cor.test <- cor.test(df$bmi, df$charges, method = "pearson")
+cor.test <- cor.test(ds225$bmi, ds225$charges, method = "pearson")
 cor.test
 
 # Scatter plot for BMI vs Charges
 png("scatter_bmi_charges.png", width = 800, height = 500)
 
-plot(df$bmi, df$charges,
+plot(ds225$bmi, ds225$charges,
      main = "Scatterplot: BMI vs Charges",
      xlab = "BMI",
      ylab = "Charges",
      pch = 19,
      col = "blue")
 
-abline(lm(charges ~ bmi, data = df), col = "red", lwd = 2)
+abline(lm(charges ~ bmi, data = ds225), col = "red", lwd = 2)
 
 dev.off()
+
