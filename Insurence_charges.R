@@ -48,6 +48,48 @@ correlation_value
 cor.test <- cor.test(ds225$bmi, ds225$charges, method = "pearson")
 cor.test
 
+#Histograms for BMI, charges
+hist(ds225$bmi,
+     main = "Histogram of BMI",
+     xlab = "BMI",
+     col = "lightblue",
+     border = "black")
+
+#Histogram for Charges
+hist(ds225$charges,
+     main = "Histogram of Charges",
+     xlab = "Charges",
+     col = "lightgreen",
+     border = "black")
+
+#Denisity plot for BMI
+plot(density(ds225$bmi),
+     main = "Density Plot of BMI",
+     xlab = "BMI",
+     ylab = "Density")
+
+#Density plot for Charges
+plot(density(ds225$charges),
+     main = "Density Plot of Charges",
+     xlab = "Charges",
+     ylab = "Density")
+
+#Shapiro test for BMI
+shapiro.test(ds225$bmi)
+
+#Shapiro test for Charges
+shapiro.test(ds225$charges)
+
+#Combined Visualization of Density and Histogram plots for BMI and Charges
+png("Combined_visualization.png", width = 800, height = 500)
+par(mfrow = c(2,2))
+hist(ds225$bmi, main = "Histogram of BMI")
+plot(density(ds225$bmi), main = "Density of BMI")
+hist(ds225$charges, main = "Histogram of Charges")
+plot(density(ds225$charges), main = "Density of Charges")
+par(mfrow = c(1,1))
+dev.off()
+
 # Scatter plot for BMI vs Charges
 png("scatter_bmi_charges.png", width = 800, height = 500)
 
