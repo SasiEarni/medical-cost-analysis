@@ -40,6 +40,18 @@ boxplot(ds225$charges, main="Before Removing Outliers", ylab = "Charges")
 boxplot(ds225_no_charges_outliers$charges, main="After Removing Outliers", ylab = "Charges")
 dev.off()
 
+# Select only numeric columns
+numeric_ds225 <- ds225[, c("age", "bmi", "children", "charges")]
+
+# Correlation matrix
+cor_matrix <- cor(numeric_ds225)
+
+cor_matrix
+
+#heatmap
+heatmap(cor_matrix, main = "Correlation Heatmap")
+
+
 # Calculate correlation value
 correlation_value <- cor(ds225$bmi, ds225$charges, method = "pearson")
 correlation_value
