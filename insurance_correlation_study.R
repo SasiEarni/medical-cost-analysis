@@ -73,3 +73,55 @@ cor_matrix <- cor(numeric_ds225)
 
 # Display matrix
 cor_matrix
+
+########################################################
+# 4. INDIVIDUAL CORRELATIONS
+########################################################
+
+# BMI vs charges
+cor(ds225$bmi, ds225$charges)
+
+# Age vs charges
+cor(ds225$age, ds225$charges)
+
+# Smoker vs charges (numeric)
+cor(ds225$smoker_num, ds225$charges)
+
+# Children vs charges
+cor(ds225$children, ds225$charges)
+
+########################################################
+# 5. SCATTERPLOTS
+########################################################
+
+# BMI vs Charges
+png("scatter_bmi_charges.png", width = 800, height = 500)
+plot(ds225$bmi, ds225$charges,
+     main = "Scatterplot: BMI vs Charges",
+     xlab = "BMI",
+     ylab = "Charges",
+     pch = 19,
+     col = "blue")
+abline(lm(bmi ~ charges, data = ds225), col = "red", lwd = 2)
+dev.off()
+
+# Age vs Charges
+png("scatter_age_charges.png", width = 800, height = 500)
+plot(ds225$age, ds225$charges,
+     main = "Scatterplot: Age vs Charges",
+     xlab = "Age",
+     ylab = "Charges",
+     col = "green")
+abline(lm(age ~ charges, data = ds225), col = "red", lwd = 2)
+dev.off()
+
+# Children vs Charges
+png("scatter_children_charges.png", width = 800, height = 500 )
+plot(ds225$children, ds225$charges,
+     main = "Scatterplot: Children vs Charges",
+     xlab = "Children",
+     ylab = "Charges",
+     col = "purple")
+abline(lm(children ~ charges, data = ds225), col = "red", lwd = 2)
+dev.off()
+
