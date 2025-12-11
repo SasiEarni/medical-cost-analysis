@@ -65,7 +65,7 @@ summary(ds225_no_charges_outliers$charges)
 ########################################################
 
 #Visual comparison of Box plots
-png("Boxplot_of_charges_Outliers.png", width = 800, height = 500)
+png("Boxplot_of_charges_Outliers.png", width = 1920, height = 1080, res = 150)
 par(mfrow=c(1,2))
 boxplot(ds225$charges, main="Before Removing Outliers", ylab = "Charges")
 boxplot(ds225_no_charges_outliers$charges, main="After Removing Outliers", ylab = "Charges")
@@ -99,7 +99,7 @@ plot(density(ds225$charges),
 
 
 #Combined Visualization of Density and Histogram plots for BMI and Charges
-png("Combined_visualization.png", width = 800, height = 500)
+png("Combined_visualization.png", width = 1920, height = 1080, res = 150)
 par(mfrow = c(2,2))
 hist(ds225$bmi, main = "Histogram of BMI", col = "lightblue", xlab = "BMI")
 plot(density(ds225$bmi), main = "Density of BMI")
@@ -166,8 +166,8 @@ t.test(charges ~ gender, data = ds225)
 ########################################################
 
 # BMI vs Charges
-png("scatter_bmi_charges.png", width = 800, height = 500)
-plot(ds225$bmi, ds225$charges,
+png("scatter_bmi_charges.png", width = 1920, height = 1080, res = 150)
+plot(ds225$bmi ~ ds225$charges,
      main = "Scatterplot: BMI vs Charges",
      xlab = "BMI",
      ylab = "Charges",
@@ -176,9 +176,10 @@ plot(ds225$bmi, ds225$charges,
 abline(lm(bmi ~ charges, data = ds225), col = "red", lwd = 2)
 dev.off()
 
+
 # Age vs Charges
-png("scatter_age_charges.png", width = 800, height = 500)
-plot(ds225$age, ds225$charges,
+png("scatter_age_charges.png", width = 1920, height = 1080, res = 150)
+plot(ds225$age ~ ds225$charges,
      main = "Scatterplot: Age vs Charges",
      xlab = "Age",
      ylab = "Charges",
@@ -187,8 +188,8 @@ abline(lm(age ~ charges, data = ds225), col = "red", lwd = 2)
 dev.off()
 
 # Children vs Charges
-png("scatter_children_charges.png", width = 800, height = 500 )
-plot(ds225$children, ds225$charges,
+png("scatter_children_charges.png", width = 1920, height = 1080, res = 150 )
+plot(ds225$children ~ ds225$charges,
      main = "Scatterplot: Children vs Charges",
      xlab = "Children",
      ylab = "Charges",
@@ -204,13 +205,16 @@ dev.off()
 
 heatmap_data <- cor_matrix
 
-# Create a heatmap with numbers manually
 png("heatmap_data.png", width = 1920, height = 1080, res = 150)
+
+# Added xlab = "" and ylab = "" to remove the axis labels
 image(1:ncol(heatmap_data),
       1:nrow(heatmap_data),
       t(heatmap_data[nrow(heatmap_data):1, ]),
       axes = FALSE,
-      main = "Correlation Heatmap")
+      main = "Correlation Heatmap",
+      xlab = "",  # Removes the x-axis label
+      ylab = "")  # Removes the y-axis label
 
 # Add axis labels
 axis(1, at = 1:ncol(heatmap_data), labels = colnames(heatmap_data))
@@ -223,7 +227,9 @@ for (i in 1:nrow(heatmap_data)) {
          labels = round(heatmap_data[i, j], 2))
   }
 }
+
 dev.off()
+
 
 ########################################################
 # PREP FOR MODELING
