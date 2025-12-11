@@ -195,3 +195,48 @@ plot(ds225$children, ds225$charges,
      col = "purple")
 abline(lm(children ~ charges, data = ds225), col = "red", lwd = 2)
 dev.off()
+
+#######################
+#Additionally
+########################################################
+#HEATMAP WITH CORRELATION NUMBERS (BASE R)
+########################################################
+
+heatmap_data <- cor_matrix
+
+# Create a heatmap with numbers manually
+png("heatmap_data.png", width = 1920, height = 1080, res = 150)
+image(1:ncol(heatmap_data),
+      1:nrow(heatmap_data),
+      t(heatmap_data[nrow(heatmap_data):1, ]),
+      axes = FALSE,
+      main = "Correlation Heatmap")
+
+# Add axis labels
+axis(1, at = 1:ncol(heatmap_data), labels = colnames(heatmap_data))
+axis(2, at = 1:nrow(heatmap_data), labels = rev(rownames(heatmap_data)))
+
+# Add numeric correlation values
+for (i in 1:nrow(heatmap_data)) {
+  for (j in 1:ncol(heatmap_data)) {
+    text(j, nrow(heatmap_data)-i+1,
+         labels = round(heatmap_data[i, j], 2))
+  }
+}
+dev.off()
+
+########################################################
+# PREP FOR MODELING
+########################################################
+
+# Simple linear model: BMI → Charges
+lm_bmi <- lm(charges ~ bmi, data = ds225)
+summary(lm_bmi)
+
+# Multi-variable model
+lm_full <- lm(charges ~ age + bmi + smoker_num + children, data = ds225)
+summary(lm_full)
+
+########################################################
+# END OF SCRIPT
+########################################################
