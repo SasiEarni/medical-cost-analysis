@@ -70,6 +70,7 @@ par(mfrow=c(1,2))
 boxplot(ds225$charges, main="Before Removing Outliers", ylab = "Charges")
 boxplot(ds225_no_charges_outliers$charges, main="After Removing Outliers", ylab = "Charges")
 dev.off()
+#saving Boxplot_of_charges_Outliers.png
 
 #Histograms for BMI, charges
 hist(ds225$bmi,
@@ -109,6 +110,7 @@ hist(ds225$charges, main = "Histogram of Charges", col = "lightgreen", xlab = "C
 plot(density(ds225$charges), main = "Density of Charges")
 par(mfrow = c(1,1))
 dev.off()
+#saving Combined Visualization of Density and Histogram plots for BMI and Charges.png
 
 #Shapiro test for BMI
 shapiro.test(ds225$bmi)
@@ -175,6 +177,7 @@ plot(ds225$bmi ~ ds225$charges,
      col = "blue")
 abline(lm(bmi ~ charges, data = ds225), col = "red", lwd = 2)
 dev.off()
+#saving scatter_bmi_charges.png
 
 
 # Age vs Charges
@@ -186,6 +189,7 @@ plot(ds225$age ~ ds225$charges,
      col = "green")
 abline(lm(age ~ charges, data = ds225), col = "red", lwd = 2)
 dev.off()
+#saving scatter_age_charges.png
 
 # Children vs Charges
 png("scatter_children_charges.png", width = 1920, height = 1080, res = 150 )
@@ -196,6 +200,7 @@ plot(ds225$children ~ ds225$charges,
      col = "purple")
 abline(lm(children ~ charges, data = ds225), col = "red", lwd = 2)
 dev.off()
+#saving scatter_children_charges.png
 
 #######################
 #Additionally
@@ -229,6 +234,7 @@ for (i in 1:nrow(heatmap_data)) {
 }
 
 dev.off()
+#saving heatmap_data.png.png
 
 
 ########################################################
