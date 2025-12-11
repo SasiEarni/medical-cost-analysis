@@ -7,6 +7,9 @@
 # Load dataset
 ds225 <- read.csv("insurance.csv")
 
+# Renaming column 'sex' to 'gender'
+colnames(ds225)[2] <- "gender"
+
 ########################################################
 # 1. DATA EXPLORATION
 ########################################################
@@ -119,11 +122,11 @@ shapiro.test(ds225$charges)
 
 # Convert categorical variables for correlation
 ds225$smoker_num <- ifelse(ds225$smoker == "yes", 1, 0)
-ds225$sex_num <- ifelse(ds225$sex == "male", 1, 0)
+ds225$gender_num <- ifelse(ds225$gender == "male", 1, 0)
 ds225$region_num <- as.numeric(as.factor(ds225$region))
 
 # Select numeric columns only
-numeric_ds225 <- ds225[, c("age", "bmi", "children", "smoker_num", "sex_num", "region_num", "charges")]
+numeric_ds225 <- ds225[, c("age", "bmi", "children", "smoker_num", "gender_num", "region_num", "charges")]
 
 # Compute correlation matrix
 cor_matrix <- cor(numeric_ds225)
@@ -148,7 +151,18 @@ cor(ds225$smoker_num, ds225$charges)
 cor(ds225$children, ds225$charges)
 
 ########################################################
-# 6. SCATTERPLOTS
+# 6. HYPOTHESIS TESTING (T-TEST)
+########################################################
+
+# T-test for smoker vs non-smoker
+t.test(charges ~ smoker, data = ds225)
+
+# T-test for gender (male vs female)
+t.test(charges ~ gender, data = ds225)
+
+
+########################################################
+# 7. SCATTERPLOTS
 ########################################################
 
 # BMI vs Charges
@@ -181,5 +195,3 @@ plot(ds225$children, ds225$charges,
      col = "purple")
 abline(lm(children ~ charges, data = ds225), col = "red", lwd = 2)
 dev.off()
-
-
