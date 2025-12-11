@@ -27,6 +27,7 @@ colSums(is.na(ds225))
 # 2. OUTLIER DETECTION & HANDLING
 ########################################################
 
+
 # Detect outliers in BMI
 BMI_outliers <- boxplot.stats(ds225$bmi)$out
 BMI_outliers
@@ -57,7 +58,63 @@ summary(ds225$charges)
 summary(ds225_no_charges_outliers$charges)
 
 ########################################################
-# 3. CORRELATION ANALYSIS
+# 3. DISTRIBUTIONS (HISTOGRAMS + DENSITY + SHAPIRO)
+########################################################
+
+#Visual comparison of Box plots
+png("Boxplot_of_charges_Outliers.png", width = 800, height = 500)
+par(mfrow=c(1,2))
+boxplot(ds225$charges, main="Before Removing Outliers", ylab = "Charges")
+boxplot(ds225_no_charges_outliers$charges, main="After Removing Outliers", ylab = "Charges")
+dev.off()
+
+#Histograms for BMI, charges
+hist(ds225$bmi,
+     main = "Histogram of BMI",
+     xlab = "BMI",
+     col = "lightblue",
+     border = "black")
+
+#Histogram for Charges
+hist(ds225$charges,
+     main = "Histogram of Charges",
+     xlab = "Charges",
+     col = "lightgreen",
+     border = "black")
+
+#Denisity plot for BMI
+plot(density(ds225$bmi),
+     main = "Density Plot of BMI",
+     xlab = "BMI",
+     ylab = "Density")
+
+#Density plot for Charges
+plot(density(ds225$charges),
+     main = "Density Plot of Charges",
+     xlab = "Charges",
+     ylab = "Density")
+
+
+#Combined Visualization of Density and Histogram plots for BMI and Charges
+png("Combined_visualization.png", width = 800, height = 500)
+par(mfrow = c(2,2))
+hist(ds225$bmi, main = "Histogram of BMI", col = "lightblue", xlab = "BMI")
+plot(density(ds225$bmi), main = "Density of BMI")
+
+#charges
+hist(ds225$charges, main = "Histogram of Charges", col = "lightgreen", xlab = "Charges")
+plot(density(ds225$charges), main = "Density of Charges")
+par(mfrow = c(1,1))
+dev.off()
+
+#Shapiro test for BMI
+shapiro.test(ds225$bmi)
+
+#Shapiro test for Charges
+shapiro.test(ds225$charges)
+
+########################################################
+# 4. CORRELATION ANALYSIS
 ########################################################
 
 # Convert categorical variables for correlation
@@ -75,7 +132,7 @@ cor_matrix <- cor(numeric_ds225)
 cor_matrix
 
 ########################################################
-# 4. INDIVIDUAL CORRELATIONS
+# 5. INDIVIDUAL CORRELATIONS
 ########################################################
 
 # BMI vs charges
@@ -91,7 +148,7 @@ cor(ds225$smoker_num, ds225$charges)
 cor(ds225$children, ds225$charges)
 
 ########################################################
-# 5. SCATTERPLOTS
+# 6. SCATTERPLOTS
 ########################################################
 
 # BMI vs Charges
@@ -124,4 +181,5 @@ plot(ds225$children, ds225$charges,
      col = "purple")
 abline(lm(children ~ charges, data = ds225), col = "red", lwd = 2)
 dev.off()
+
 
