@@ -72,7 +72,7 @@ boxplot(ds225_no_charges_outliers$charges, main="After Removing Outliers", ylab 
 dev.off()
 #saving Boxplot_of_charges_Outliers.png
 
-#Histograms for BMI, charges
+#Histograms for BMI
 hist(ds225$bmi,
      main = "Histogram of BMI",
      xlab = "BMI",
@@ -123,6 +123,9 @@ shapiro.test(ds225$charges)
 ########################################################
 
 # Convert categorical variables for correlation
+charges_non_smoker <- ds225$charges[ds225$smoker == "no"]
+charges_smoker <- ds225$charges[ds225$smoker == "yes"]
+
 ds225$smoker_num <- ifelse(ds225$smoker == "yes", 1, 0)
 ds225$gender_num <- ifelse(ds225$gender == "male", 1, 0)
 ds225$region_num <- as.numeric(as.factor(ds225$region))
@@ -164,7 +167,7 @@ t.test(charges ~ gender, data = ds225)
 
 
 ########################################################
-# 7. SCATTERPLOTS
+# 7. PLOTS
 ########################################################
 
 # BMI vs Charges
@@ -176,9 +179,38 @@ plot(ds225$bmi ~ ds225$charges,
      pch = 19,
      col = "blue")
 abline(lm(bmi ~ charges, data = ds225), col = "red", lwd = 2)
+legend(
+  "bottomright",
+  legend = c("Data Points (Blue)", "Regression Line (Red)"),
+  col = c("Blue", "red"),
+  pch = c(19, NA),
+  lty = c(NA, 1),
+  lwd = c(NA, 2),
+  bty = "n"
+)
 dev.off()
 #saving scatter_bmi_charges.png
 
+
+# Age vs Charges
+png("scatter_smoker_charges.png", width = 1920, height = 1080, res = 150)
+plot(ds225$smoker_num ~ ds225$charges,
+     main = "Scatterplot: Smoker vs Charges",
+     xlab = "smoker_num",
+     ylab = "Charges",
+     col = "yellow")
+abline(lm(smoker_num ~ charges, data = ds225), col = "red", lwd = 2)
+legend(
+  "bottomright",
+  legend = c("Data Points (Yellow)", "Regression Line (Red)"),
+  col = c("yellow", "red"),
+  pch = c(19, NA),
+  lty = c(NA, 1),
+  lwd = c(NA, 2),
+  bty = "n"
+)
+dev.off()
+#saving scatter_smoker_charges.png
 
 # Age vs Charges
 png("scatter_age_charges.png", width = 1920, height = 1080, res = 150)
@@ -188,6 +220,15 @@ plot(ds225$age ~ ds225$charges,
      ylab = "Charges",
      col = "green")
 abline(lm(age ~ charges, data = ds225), col = "red", lwd = 2)
+legend(
+  "bottomright",
+  legend = c("Data Points (Green)", "Regression Line (Red)"),
+  col = c("Green", "red"),
+  pch = c(10, NA),
+  lty = c(NA, 1),
+  lwd = c(NA, 2),
+  bty = "n"
+)
 dev.off()
 #saving scatter_age_charges.png
 
@@ -199,8 +240,39 @@ plot(ds225$children ~ ds225$charges,
      ylab = "Charges",
      col = "purple")
 abline(lm(children ~ charges, data = ds225), col = "red", lwd = 2)
+legend(
+  "bottomright",
+  legend = c("Data Points (purple)", "Regression Line (Red)"),
+  col = c("purple", "red"),
+  pch = c(19, NA),
+  lty = c(NA, 1),
+  lwd = c(NA, 2),
+  bty = "n"
+)
 dev.off()
 #saving scatter_children_charges.png
+
+
+png("histogram_smoker_and_nonsmoker_charges.png", width = 1920, height = 1080, res = 150 )
+# Set plotting area for 2 charts
+par(mfrow = c(1, 2))
+
+# Histogram: Non-smokers
+hist(charges_non_smoker,
+     breaks = 30,
+     col = "lightblue",
+     main = "Medical Charges: Non-Smokers",
+     xlab = "Charges",
+     ylab = "Frequency")
+
+# Histogram: Smokers
+hist(charges_smoker,
+     breaks = 30,
+     col = "salmon",
+     main = "Medical Charges: Smokers",
+     xlab = "Charges",
+     ylab = "Frequency")
+dev.off()
 
 #######################
 #Additionally
@@ -222,7 +294,7 @@ image(1:ncol(heatmap_data),
       ylab = "")  # Removes the y-axis label
 
 # Add axis labels
-axis(1, at = 1:ncol(heatmap_data), labels = colnames(heatmap_data))
+axis(1, at = 1:ncol(heatmap_data), labels = rev(colnames(heatmap_data)))
 axis(2, at = 1:nrow(heatmap_data), labels = rev(rownames(heatmap_data)))
 
 # Add numeric correlation values
@@ -252,3 +324,4 @@ summary(lm_full)
 ########################################################
 # END OF SCRIPT
 ########################################################
+
